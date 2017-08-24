@@ -1,0 +1,21 @@
+{
+  "name": "projeto1-sd1",
+  "version": "1.0.0",
+  "description": "Projeto 1 - Servidor IRC - Sistemas Distribuidos 1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "irc",
+    "servidor",
+    "sistemas",
+    "distribuidos",
+    "web"
+  ],
+  "author": "Gustavo Vinicius",
+  "license": "ISC",
+  "dependencies": {
+    "net": "^1.0.2"
+  }
+}
