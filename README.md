@@ -6,4 +6,7 @@
 
 *Gabriel Gomes Cruz da Rocha - gblcr@hotmail.com - Sem cargo definido
 
+*Vitor Rafael Gonçalves Rodrigues - vitorafaelgr@gmail.com - Desenvolvedor
+
 *Meg Batista Alves - meg1489@hotmail.com - Desenvolvedor
+
