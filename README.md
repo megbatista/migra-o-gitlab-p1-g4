@@ -5,3 +5,5 @@
 #Membros
 
 *Gabriel Gomes Cruz da Rocha - gblcr@hotmail.com - Sem cargo definido
+
+*Meg Batista Alves - meg1489@hotmail.com - Desenvolvedor
