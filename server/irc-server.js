@@ -4,6 +4,9 @@ var net = require('net');
 // Keep track of the chat clients
 var clients = [];
 
+//Cria um objeto pra armazenar nicks
+var nicks = {};
+
 // Start a TCP Server
 net.createServer(function (socket) {
 
@@ -19,7 +22,7 @@ net.createServer(function (socket) {
 
   // Handle incoming messages from clients.
   socket.on('data', function (data) {
-    broadcast(socket.name + "> " + data, socket);
+    analisar(data);
   });
 
   // Remove the client from the list when it leaves
@@ -39,7 +42,42 @@ net.createServer(function (socket) {
     process.stdout.write(message)
   }
 
-}).listen(5000);
+function analisar(data){
+  let mensagem = String(data).trim();
+  let args = mensagem.split(" ");
+
+  if(args[0] == 'NICK') nick(args);
+  else if(args[0] == 'USER') user(args);
+  else if(args[0] == 'JOIN') join(args);
+  else socket.write("ERRO: comando inexistente");
+}
+
+function nick(args){
+  if(!args[1]){
+    socket.write('ERRO: nick faltando');
+    return;
+  }
+  else if(nicks[args[1]]){
+    socket.write('ERRO: o nick informado ja existe');
+  }else{
+    if(socket.nick){
+      delete nicks[socket.nick];
+    }
+    // associa ao atributo nick informado o valor: nome do socket(ip:porta);
+    nicks[args[1]] = socket.name;
+    socket.nick = args[1];
+  }
+}
+function join(args){
+  socket.write('Comando JOIN a ser implementado');
+}
+
+function user(args){
+  socket.write('Comando USER a ser implementado');
+}
+
+}).listen(6667);
+
 
 // Put a friendly message on the terminal of the server.
-console.log("Chat server running at port 5000\n");
+console.log("Servidor rodando na porta 6667\n");
