@@ -6,6 +6,9 @@ var clients = [];
 
 //Cria um objeto pra armazenar nicks
 var nicks = {};
+//Armazena os nomes de usuario
+var users = {};
+
 
 // Start a TCP Server
 net.createServer(function (socket) {
@@ -16,19 +19,22 @@ net.createServer(function (socket) {
   // Put this new client in the list
   clients.push(socket);
 
-  // Send a nice welcome message and announce
-  socket.write("Welcome " + socket.name + "\n");
-  broadcast(socket.name + " joined the chat\n", socket);
-
   // Handle incoming messages from clients.
   socket.on('data', function (data) {
-    analisar(data);
+    if(socket.nick && socket.user){
+        analisar(data);
+    }else{
+	autenticar(data);
+	if(socket.nick && socket.user) welcome();
+    }
   });
 
   // Remove the client from the list when it leaves
   socket.on('end', function () {
     clients.splice(clients.indexOf(socket), 1);
-    broadcast(socket.name + " left the chat.\n");
+    broadcast(socket.nick + " deixou o chat\n", socket);
+    delete nicks[socket.nick];
+    delete users[socket.user];
   });
   
   // Send a message to all clients
@@ -46,19 +52,26 @@ function analisar(data){
   let mensagem = String(data).trim();
   let args = mensagem.split(" ");
 
-  if(args[0] == 'NICK') nick(args);
-  else if(args[0] == 'USER') user(args);
-  else if(args[0] == 'JOIN') join(args);
-  else socket.write("ERRO: comando inexistente");
+  if(args[0] == 'JOIN') join(args);
+  else socket.write("ERRO: comando inexistente\n");
+}
+
+function autenticar(data){
+  let mensagem = String(data).trim();
+  let args = mensagem.split(" ");
+
+   if(args[0] == 'NICK') nick(args);
+   else if(args[0] == 'USER') user(args);
+  
 }
 
 function nick(args){
   if(!args[1]){
-    socket.write('ERRO: nick faltando');
+    socket.write('ERRO: nick faltando\n');
     return;
   }
   else if(nicks[args[1]]){
-    socket.write('ERRO: o nick informado ja existe');
+    socket.write('ERRO: o nick informado ja existe\n');
   }else{
     if(socket.nick){
       delete nicks[socket.nick];
@@ -69,12 +82,31 @@ function nick(args){
   }
 }
 function join(args){
-  socket.write('Comando JOIN a ser implementado');
+  socket.write('Comando JOIN a ser implementado\n');
 }
 
 function user(args){
-  socket.write('Comando USER a ser implementado');
+  if(socket.user){
+	delete users[socket.user];
+  }
+  users[args[1]] = socket.name;
+  socket.user = args[1];
+  let mode = parseInt(args[2]);
+  if(!(mode == 0 || mode == 8)){
+	socket.write('ERRO: parametros invalidos')
+	return;
+  }
+  if(args[3] != '*') return;
+
+
 }
+
+function welcome(){
+  // Send a nice welcome message and announce
+  socket.write("Bem vindo "+socket.nick+" (" +socket.name + ")"+"\n");
+  broadcast(socket.nick+" ("+socket.name+") "+ " entrou no chat\n", socket);
+}
+
 
 }).listen(6667);
 
