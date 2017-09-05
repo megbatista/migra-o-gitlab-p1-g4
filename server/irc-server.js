@@ -1,45 +1,46 @@
 // Load the TCP Library
 var net = require('net');
+import { Nick } from '../comandos/nick'
+import { Canal } from './Canal'
+import { GerenciadorDeCanais } from './GerenciadorDeCanais'
+import { GerenciadorDeClientes } from './GerenciadorDeClientes'
 
 // Keep track of the chat clients
 var clients = [];
 
-//Cria um objeto pra armazenar nicks
-var nicks = {};
-//Armazena os nomes de usuario
-var users = {};
+//Armazena os canais criados nesse servidor
+var canais = new GerenciadorDeCanais();
 
+
+var clientes = new GerenciadorDeClientes();
+
+//comandos implementados do irc(adicione aqui novas classes de comando)
+var comandos = [];
+comandos.push(new Nick());
 
 // Start a TCP Server
 net.createServer(function (socket) {
 
   // Identify this client
   socket.name = socket.remoteAddress + ":" + socket.remotePort 
-
+  
   // Put this new client in the list
-  clients.push(socket);
+  clientes.add(socket);
 
   // Handle incoming messages from clients.
   socket.on('data', function (data) {
-    if(socket.nick && socket.user){
         analisar(data);
-    }else{
-	autenticar(data);
-	if(socket.nick && socket.user) welcome();
-    }
   });
 
   // Remove the client from the list when it leaves
   socket.on('end', function () {
-    clients.splice(clients.indexOf(socket), 1);
-    broadcast(socket.nick + " deixou o chat\n", socket);
-    delete nicks[socket.nick];
-    delete users[socket.user];
+   	clientes.remove(socket);
+	broadcast(socket.nick + " deixou o chat\n", socket);
   });
   
   // Send a message to all clients
   function broadcast(message, sender) {
-    clients.forEach(function (client) {
+    clientes.clients.forEach(function (client) {
       // Don't want to send it to sender
       if (client === sender) return;
       client.write(message);
@@ -52,8 +53,8 @@ function analisar(data){
   let mensagem = String(data).trim();
   let args = mensagem.split(" ");
 
-  if(args[0] == 'JOIN') join(args);
-  else socket.write("ERRO: comando inexistente\n");
+	let classeDeComando = comandos.filter(comando => {comando.aplica(args);});
+	classeDeComando[0].executa(args, socket);
 }
 
 function autenticar(data){
