@@ -39,7 +39,7 @@ Um servidor IRC utiliza um protocolo de mesmo nome para realizar
  O servidor indicará que estará rodando na porta padrão do protocolo IRC: 6667.
 
 Para acessar o servidor abra outro terminal, e acesse usando a ferramenta telnet
-e informe o endereco local da sua maquina e a porta em que o servidor está rodando:
+e informe o endereço local da sua máquina e a porta em que o servidor está rodando:
 ```
 telnet 127.0.0.1 6667
 ```
