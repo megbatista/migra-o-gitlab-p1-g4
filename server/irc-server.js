@@ -1,6 +1,8 @@
 // Load the TCP Library
 var net = require('net');
+
 import { Nick } from '../comandos/nick'
+//import { User } from '../comandos/nick'
 import { Canal } from './Canal'
 import { GerenciadorDeCanais } from './GerenciadorDeCanais'
 import { GerenciadorDeClientes } from './GerenciadorDeClientes'
@@ -17,6 +19,7 @@ var clientes = new GerenciadorDeClientes();
 //comandos implementados do irc(adicione aqui novas classes de comando)
 var comandos = [];
 comandos.push(new Nick());
+//comandos.push(new User());
 
 // Start a TCP Server
 net.createServer(function (socket) {
@@ -52,54 +55,9 @@ net.createServer(function (socket) {
 function analisar(data){
   let mensagem = String(data).trim();
   let args = mensagem.split(" ");
-
-	let classeDeComando = comandos.filter(comando => {comando.aplica(args);});
+	let comandoInformado = comando => comando.aplica(args);
+	let classeDeComando = comandos.filter(comando => comando.aplica(comandoInformado));
 	classeDeComando[0].executa(args, socket);
-}
-
-function autenticar(data){
-  let mensagem = String(data).trim();
-  let args = mensagem.split(" ");
-
-   if(args[0] == 'NICK') nick(args);
-   else if(args[0] == 'USER') user(args);
-  
-}
-
-function nick(args){
-  if(!args[1]){
-    socket.write('ERRO: nick faltando\n');
-    return;
-  }
-  else if(nicks[args[1]]){
-    socket.write('ERRO: o nick informado ja existe\n');
-  }else{
-    if(socket.nick){
-      delete nicks[socket.nick];
-    }
-    // associa ao atributo nick informado o valor: nome do socket(ip:porta);
-    nicks[args[1]] = socket.name;
-    socket.nick = args[1];
-  }
-}
-function join(args){
-  socket.write('Comando JOIN a ser implementado\n');
-}
-
-function user(args){
-  if(socket.user){
-	delete users[socket.user];
-  }
-  users[args[1]] = socket.name;
-  socket.user = args[1];
-  let mode = parseInt(args[2]);
-  if(!(mode == 0 || mode == 8)){
-	socket.write('ERRO: parametros invalidos')
-	return;
-  }
-  if(args[3] != '*') return;
-
-
 }
 
 function welcome(){

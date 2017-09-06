@@ -31,12 +31,23 @@ node --version
 Um servidor IRC utiliza um protocolo de mesmo nome para realizar
  a comunicacao entre duas maquinas atraves de sockets.
 
+Para esta implementacao de servidor IRC estamos utilizando a orientacao objetos fornecida
+pelos novos recursos do ECMAScript 6 (Javascript).
+
+Acesse o [site de referencia](https://medium.com/@matheusml/o-guia-do-es6-tudo-que-voc%C3%AA-precisa-saber-8c287876325f) pra verificar as novas funcionalidades. 
+
+
  Para rodar o servidor, estando com o terminal na pasta onde esta o arquivo
  **irc-server.js** insira o comando:
  ```
- node irc-server.js
+ npm run babel
  ```
  O servidor indicara que estara rodando na porta padrao do protocolo IRC: 6667.
+
+Caso nao tenha o Node Package Manager instalado execute o comando:
+```
+apt-get install npm
+```
 
 Para acessar o servidor abra outro terminal, e acesse usando a ferramenta telnet
 e informe o endereco local da sua maquina e a porta em que o servidor esta rodando:
