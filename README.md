@@ -1,4 +1,4 @@
-# Projeto 1 - Sistemas Distribuidos 1 - Engenharia de Computacao - UFG - Servidor IRC
+# Projeto 1 - Sistemas Distribuidos 1 - Engenharia de Computação - UFG - Servidor IRC
 
 ## Membros
 
