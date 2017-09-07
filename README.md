@@ -1,4 +1,4 @@
-# Projeto 1 - Sistemas Distribuidos 1 - Engenharia de Computação - UFG - Servidor IRC
+# Projeto 1 - Sistemas Distribuídos 1 - Engenharia de Computação - UFG - Servidor IRC
 
 ## Membros
 
@@ -12,7 +12,7 @@
 
 * Gustavo Vinicius Taveira Lima - gustavo_vinicius_taveira@hotmail.com - Desenvolvedor
 
-## Documentacao
+## Documentação
 
 Para a correta execução do servidor é necessária a instalação do Node.js.
 
