@@ -1,14 +1,10 @@
 // Load the TCP Library
 var net = require('net');
+var nick = require('../comandos/nick');
+var user = require('../comandos/user');
 
 // Keep track of the chat clients
 var clients = [];
-
-//Cria um objeto pra armazenar nicks
-var nicks = {};
-//Armazena os nomes de usuario
-var users = {};
-
 
 // Start a TCP Server
 net.createServer(function (socket) {
@@ -25,7 +21,10 @@ net.createServer(function (socket) {
         analisar(data);
     }else{
 	autenticar(data);
-	if(socket.nick && socket.user) welcome();
+	if(socket.nick && socket.user) {
+		welcome();
+	}
+
     }
   });
 
@@ -33,8 +32,6 @@ net.createServer(function (socket) {
   socket.on('end', function () {
     clients.splice(clients.indexOf(socket), 1);
     broadcast(socket.nick + " deixou o chat\n", socket);
-    delete nicks[socket.nick];
-    delete users[socket.user];
   });
   
   // Send a message to all clients
@@ -52,63 +49,35 @@ function analisar(data){
   let mensagem = String(data).trim();
   let args = mensagem.split(" ");
 
-  if(args[0] == 'JOIN') join(args);
-  else socket.write("ERRO: comando inexistente\n");
+	switch(args[0].toUpperCase()){
+		case 'JOIN': socket.write('Comando Join executado');
+		break;
+		default: socket.write(args[0]+': Comando desconhecido.')
+	}
 }
 
 function autenticar(data){
   let mensagem = String(data).trim();
   let args = mensagem.split(" ");
 
-   if(args[0] == 'NICK') nick(args);
-   else if(args[0] == 'USER') user(args);
-  
-}
-
-function nick(args){
-  if(!args[1]){
-    socket.write('ERRO: nick faltando\n');
-    return;
-  }
-  else if(nicks[args[1]]){
-    socket.write('ERRO: o nick informado ja existe\n');
-  }else{
-    if(socket.nick){
-      delete nicks[socket.nick];
-    }
-    // associa ao atributo nick informado o valor: nome do socket(ip:porta);
-    nicks[args[1]] = socket.name;
-    socket.nick = args[1];
-  }
-}
-function join(args){
-  socket.write('Comando JOIN a ser implementado\n');
-}
-
-function user(args){
-  if(socket.user){
-	delete users[socket.user];
-  }
-  users[args[1]] = socket.name;
-  socket.user = args[1];
-  let mode = parseInt(args[2]);
-  if(!(mode == 0 || mode == 8)){
-	socket.write('ERRO: parametros invalidos')
-	return;
-  }
-  if(args[3] != '*') return;
-
-
+  switch(args[0].toUpperCase()){
+	case 'NICK': nick.executar(args, socket, clients);
+	break;
+	case 'USER': user.executar(args, socket, clients);
+	break;
+	case 'JOIN': socket.write('Voce ainda nao se registrou. \n');
+	break;
+	}
 }
 
 function welcome(){
   // Send a nice welcome message and announce
-  socket.write("Bem vindo "+socket.nick+" (" +socket.name + ")"+"\n");
+  socket.write("\nBem vindo "+socket.nick+"! (" +socket.name + ")"+"\n\n");
   broadcast(socket.nick+" ("+socket.name+") "+ " entrou no chat\n", socket);
 }
 
 
-}).listen(6667);
+}).listen(3000);
 
 
 // Put a friendly message on the terminal of the server.

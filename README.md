@@ -14,32 +14,18 @@
 
 ## Documentacao
 
-Para a correta execucao do servidor e necessaria a instalacao do Node.js.
+A documentacao pode ser encontrada na pasta **manuais** presente no diretorio raiz deste projeto.
 
-No terminal do ambiente Linux digite o seguinte comando:
-```
-sudo apt-get install nodejs
-```
-Caso esteja usando o Windows,  acesse o [site oficial](https://nodejs.org/en/) do Node.js e baixe o instalador.
+1. Manual do desenvolvedor
 
-Para verificar se o Node.js esta instalado execute o comando:
-```
-node --version
-```
-### Servidor IRC
+    Como instalar um ambiente de desenvolvimento; como testar; como submeter contribuições, tecnologias empregadas; teoria que fundamenta o projeto; caso de uso textuais, diagramas de sequência; diagramas de status; diagramas de atividade;  etc;
+    ```
+    Path: ./manuais/manual_desenvolvedor.md
+    ```
+2. Manual do usuário
+    
+    Apresentação do software; requisitos de hardware e software; como instalar o software; configuracoes; funcionalidades; etc.
+    ```
+    Path: ./manuais/manual_usuario.md
+    ```
 
-Um servidor IRC utiliza um protocolo de mesmo nome para realizar
- a comunicacao entre duas maquinas atraves de sockets.
-
- Para rodar o servidor, estando com o terminal na pasta onde esta o arquivo
- **irc-server.js** insira o comando:
- ```
- node irc-server.js
- ```
- O servidor indicara que estara rodando na porta padrao do protocolo IRC: 6667.
-
-Para acessar o servidor abra outro terminal, e acesse usando a ferramenta telnet
-e informe o endereco local da sua maquina e a porta em que o servidor esta rodando:
-```
-telnet 127.0.0.1 6667
-```
