@@ -8,20 +8,17 @@ function join(argv, canais, socket)
   // os canais entrados.
   let sair = false;
 
-  //Retira o primeiro termo(JOIN) do array argv.
-  argv.shift();
-
   //Checa se a entrada é valida
-  if(!argv[0])
+  if(!argv[1])
   {
-    socket.write('Entre com um nome valido');
+    socket.write('Entre com um nome valido\n');
     return;
   }
 
   //Checa se o comando foi JOIN 0
-  if((argv[0] == '0') && (!argv[1]))
+  if((argv[1] == '0') && (!argv[2]))
   {
-    socket.write('Saindo de todos os canais!');
+    socket.write('Saindo de todos os canais!\n');
     sair = true;
   }
 
@@ -32,18 +29,19 @@ function join(argv, canais, socket)
     socket.canaisEntrados = [];
   }
 
-  //Olha todas as strings procurando por nomes começando com #.
-  for(palavra in argv)
+  if(argv[1][0] == '#')
   {
-
-    //Se a palavra começar com # ela é considerada um canal e
-    // guardada no array canaisEntrados.
-    if(argv[palavra][0] == '#')
-      listaDeCanais.push(argv[palavra]);
+    let canais = argv[1].split(',');
+    for(i in canais)
+      listaDeCanais.push(canais[i]);
+  }
     //Se a palavra não começar com # ela é considerada senha e
     // guardada em senhas.
-    else
-      senhas.push(argv[palavra]);
+  if(argv[2])
+  {
+    let pass = argv[2].split(',');
+    for(i in pass)
+    senhas.push(pass[i]);
   }
 
 
