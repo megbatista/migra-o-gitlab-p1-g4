@@ -2,6 +2,7 @@
 var net = require('net');
 var nick = require('../comandos/nick');
 var user = require('../comandos/user');
+var quit = require('../comandos/quit');
 
 // Keep track of the chat clients
 var clients = [];
@@ -52,6 +53,8 @@ function analisar(data){
 	switch(args[0].toUpperCase()){
 		case 'JOIN': socket.write('Comando Join executado');
 		break;
+		case 'QUIT': quit.executar(args, socket, clients);
+		break;
 		default: socket.write(args[0]+': Comando desconhecido.')
 	}
 }
@@ -60,13 +63,13 @@ function autenticar(data){
   let mensagem = String(data).trim();
   let args = mensagem.split(" ");
 
-  switch(args[0].toUpperCase()){
-	case 'NICK': nick.executar(args, socket, clients);
-	break;
-	case 'USER': user.executar(args, socket, clients);
-	break;
-	case 'JOIN': socket.write('Voce ainda nao se registrou. \n');
-	break;
+  	switch(args[0].toUpperCase()) {
+		case 'NICK': nick.executar(args, socket, clients);
+		break;
+		case 'USER': user.executar(args, socket, clients);
+		break;
+		case 'JOIN': socket.write('Voce ainda nao se registrou. \n');
+		break;
 	}
 }
 
