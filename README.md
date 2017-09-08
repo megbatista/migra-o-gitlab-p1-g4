@@ -1,4 +1,4 @@
-# Projeto 1 - Sistemas Distribuidos 1 - Engenharia de Computacao - UFG - Servidor IRC
+# Projeto 1 - Sistemas Distribuidos 1 - Engenharia de Computação - UFG - Servidor IRC
 
 ## Membros
 
@@ -13,6 +13,7 @@
 * Gustavo Vinicius Taveira Lima - gustavo_vinicius_taveira@hotmail.com - Desenvolvedor
 
 ## Documentacao
+
 
 A documentacao pode ser encontrada na pasta **manuais** presente no diretorio raiz deste projeto.
 
