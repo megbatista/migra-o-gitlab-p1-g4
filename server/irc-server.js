@@ -77,7 +77,7 @@ function welcome(){
 }
 
 
-}).listen(3000);
+}).listen(6667);
 
 
 // Put a friendly message on the terminal of the server.
