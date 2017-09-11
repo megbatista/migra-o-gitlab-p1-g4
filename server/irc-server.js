@@ -4,14 +4,19 @@ var nick = require('../comandos/nick');
 var user = require('../comandos/user');
 var quit = require('../comandos/quit');
 
+//Carrega os modulos em suas respectivas variaveis
+var join = require('../comandos/join.js');
 // Keep track of the chat clients
 var clients = [];
+
+//Cria um array para armazenar os canais
+var canais = [];
 
 // Start a TCP Server
 net.createServer(function (socket) {
 	
   // Identify this client
-  socket.name = socket.remoteAddress + ":" + socket.remotePort 
+  socket.name = socket.remoteAddress + ":" + socket.remotePort
 
   // Put this new client in the list
   clients.push(socket);
@@ -34,7 +39,7 @@ net.createServer(function (socket) {
     clients.splice(clients.indexOf(socket), 1);
     broadcast(socket.nick + " deixou o chat\n", socket);
   });
-  
+
   // Send a message to all clients
   function broadcast(message, sender) {
     clients.forEach(function (client) {
@@ -51,11 +56,11 @@ function analisar(data){
   let args = mensagem.split(" ");
 
 	switch(args[0].toUpperCase()){
-		case 'JOIN': socket.write('Comando Join executado');
+		case 'JOIN': join(args, canais, socket);
 		break;
 		case 'QUIT': quit.executar(args, socket, clients);
 		break;
-		default: socket.write(args[0]+': Comando desconhecido.')
+		default: socket.write(args[0]+': Comando desconhecido.');
 	}
 }
 
@@ -78,7 +83,6 @@ function welcome(){
   socket.write("\nBem vindo "+socket.nick+"! (" +socket.name + ")"+"\n\n");
   broadcast(socket.nick+" ("+socket.name+") "+ " entrou no chat\n", socket);
 }
-
 
 }).listen(6667);
 
