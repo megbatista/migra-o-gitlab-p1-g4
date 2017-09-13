@@ -3,6 +3,7 @@ var net = require('net');
 var nick = require('../comandos/nick');
 var user = require('../comandos/user');
 var quit = require('../comandos/quit');
+var ison = require('../comandos/ison');
 
 //Carrega os modulos em suas respectivas variaveis
 var join = require('../comandos/join.js');
@@ -59,6 +60,8 @@ function analisar(data){
 		case 'JOIN': join(args, canais, socket);
 		break;
 		case 'QUIT': quit.executar(args, socket, clients);
+		break;
+		case 'ISON': ison.executar(args, socket, clients);
 		break;
 		default: socket.write(args[0]+': Comando desconhecido.');
 	}
