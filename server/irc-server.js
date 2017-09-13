@@ -4,6 +4,7 @@ var nick = require('../comandos/nick');
 var user = require('../comandos/user');
 var quit = require('../comandos/quit');
 var privmsg = require('../comandos/privmsg');
+var ison = require('../comandos/ison');
 
 //Carrega os modulos em suas respectivas variaveis
 var join = require('../comandos/join.js');
@@ -72,9 +73,12 @@ net.createServer(function (socket) {
             break;
             case 'PRIVMSG': privmsg(args,canais,socket,clients);
             break;
+            case 'ISON': ison.executar(args, socket, clients);
+		    break;
             default: socket.write(args[0]+': Comando desconhecido.\n');
         }
     }
+
 
     function autenticar(data)
     {
