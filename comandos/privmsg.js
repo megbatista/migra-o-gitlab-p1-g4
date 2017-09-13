@@ -29,21 +29,19 @@ function privmsg(args, canais, socket, clients)
     }
     //nome de canal precisa começar com #
     //verifica também se args[1] está na listaDeCanais
-    else if(args[1][0]=='#' && canais.filter(canal => canal.nomeDoCanal === args[1]).length)
+    else if(canais[args[1]])
     {
         //executa essa função para cada cliente no array clients
-        clients.forEach(function(client)
+        canais[args[1]].usuarios.forEach(function(client)
         {
-            if(canal.nomeDoCanal === args[1]) 
-            {
                 //agora verifica se o socket, ou seja, quem digitou o comando PRIVMSG, está no canal para o qual ela está tentando mandar a PRIVMSG. Se não estiver, a mensagem não será enviada. Primeiro verifica se o socket tem a lista de canais entrados, e se tiver, verifica se o canal args[1] está nessa lista.
                 if(socket.hasOwnProperty('canaisEntrados'))
                 {
-                    if(socket.canaisEntrados(args[1]))
+                    if(socket.canaisEntrados.filter(canal => canal ==  args[1]).length)
                     {
                         client.write(socket.nick + " > ");
 
-                        for(var i=2;i<args.lenght;i++)
+                        for(var i=2;i<args.length;i++)
                         {
                             client.write(args[i]+" ");
                         }   
@@ -52,10 +50,9 @@ function privmsg(args, canais, socket, clients)
                         
                         socket.write("Comando PRIVMSG para canal executado com sucesso!\n");
                     }
-                    else socket.write("ERRO: você não entrou nesse canal!\n");
+                    else socket.write("ERRO: você não entrou nesse canal!!!!!!\n");
                 }
                 else socket.write("ERRO: você não entrou nesse canal!\n");
-            }
                 
         });//fim do forEach
        
