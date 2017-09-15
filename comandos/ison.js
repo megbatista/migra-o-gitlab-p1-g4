@@ -1,17 +1,21 @@
 exports.executar = function(args, socket, clients){
 	
+	var size = 0;
+
 	for(var k = 0;k<args.length;k++){
 
-		var size = size + args[k].length;
+		size += args[k].length;
 
 	}
 
-	if(args.length < 2){
-
-		socket.write('ERR_NEEDMOREPARAMS: too few arguments.\n-> ISON :[<nick> {<space><nick>}]');
+	if(args.length == 1){
+		socket.write('461 ISON :Parametros insuficientes\n');
 		return;
 
-	}else if(size < 512){
+	}
+	if(size < 512){
+		
+		var listaNicksAtivos = '';
 
 		for(var i = 1; i < args.length; i++){
 		
@@ -19,14 +23,15 @@ exports.executar = function(args, socket, clients){
 			
 				if(clients[j].nick == args[i]){
 
-				socket.write('User '+ args[i] +' is on.\n');
+					listaNicksAtivos += args[i] + ' ';
 
 				}
 			}
 		}
+		socket.write('303 ISON :'+ listaNicksAtivos+'\n');
 	}else{
 
-		socket.write('ERR: Too many nicknames');
+		socket.write('ERRO: Muito nicks informados\n');
 		return;
 	}
 }
