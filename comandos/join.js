@@ -60,6 +60,7 @@ function join(argv, canais, socket)
         //O canal não tem senha.
         canais[listaDeCanais[canal]].usuarios.push(socket);
         socket.canaisEntrados.push(listaDeCanais[canal]);
+        socket.write('Você entrou no canal '+listaDeCanais[canal]+'!\n');
       }
       //O canal tem senha.
       else
@@ -74,6 +75,7 @@ function join(argv, canais, socket)
           senhas.shift();
           canais[listaDeCanais[canal]].usuarios.push(socket);
           socket.canaisEntrados.push(listaDeCanais[canal]);
+          socket.write('Você entrou no canal '+listaDeCanais[canal]+'!\n');
         }
         //A senha errada foi colocada
         else {

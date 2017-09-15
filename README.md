@@ -1,4 +1,4 @@
-# Projeto 1 - Sistemas Distribuidos 1 - Engenharia de Computação - UFG - Servidor IRC
+# Projeto 1 - Sistemas Distribuídos 1 - Engenharia de Computação - UFG - Servidor IRC
 
 ## Membros
 
@@ -12,10 +12,10 @@
 
 * Gustavo Vinicius Taveira Lima - gustavo_vinicius_taveira@hotmail.com - Desenvolvedor
 
-## Documentacao
+## Documentação
 
 
-A documentacao pode ser encontrada na pasta **manuais** presente no diretorio raiz deste projeto.
+A documentação pode ser encontrada na pasta **manuais** presente no diretório raiz deste projeto.
 
 1. Manual do desenvolvedor
 
@@ -25,7 +25,7 @@ A documentacao pode ser encontrada na pasta **manuais** presente no diretorio ra
     ```
 2. Manual do usuário
     
-    Apresentação do software; requisitos de hardware e software; como instalar o software; configuracoes; funcionalidades; etc.
+    Apresentação do software; requisitos de hardware e software; como instalar o software; configurações; funcionalidades; etc.
     ```
     Path: ./manuais/manual_usuario.md
     ```
