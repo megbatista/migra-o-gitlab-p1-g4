@@ -5,6 +5,7 @@ var user = require('../comandos/user');
 var quit = require('../comandos/quit');
 var privmsg = require('../comandos/privmsg');
 var ison = require('../comandos/ison');
+var part = require('../comandos/part');
 
 //Carrega os modulos em suas respectivas variaveis
 var join = require('../comandos/join.js');
@@ -75,7 +76,10 @@ net.createServer(function (socket) {
             break;
             case 'ISON': ison.executar(args, socket, clients);
 		    break;
-            default: socket.write(args[0]+': Comando desconhecido.\n');
+	    case 'PART': part.executar(args, socket, canais);
+	    break;
+            case '': break;
+            default: socket.write('421 '+args[0]+' :Comando desconhecido.\n');
         }
     }
 
@@ -91,7 +95,7 @@ net.createServer(function (socket) {
             break;
             case 'USER': user.executar(args, socket, clients);
             break;
-            case 'JOIN': socket.write('Voce ainda nao se registrou. \n');
+            case 'JOIN': socket.write('451 * :Voce ainda nao se registrou. \n');
             break;
         }
     }
