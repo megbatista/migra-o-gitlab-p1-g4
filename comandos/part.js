@@ -5,7 +5,7 @@ exports.executar = function(args, socket, canais){
 	}
 
 	if(args[2]){
-		var mensagem;
+		var mensagem = '';
 		for(let i = 2; i<args.length; i++){
 			mensagem += args[i]+' ';
 		}
@@ -18,23 +18,30 @@ exports.executar = function(args, socket, canais){
 
 	canaisInformados.forEach(canalInformado =>{
 
-		var valido = canais.filter(canal=>{
-			if(canal.nomeDoCanal == canalInformado){
+		var valido = false;
+
+		if(canais[canalInformado]){
 			 indice = canais.indexOf(canal);
-			 return true;	
-			}
-		});
-		if(valido.length != 0){
-			canais[args[1]].usuarios.splice(indice, 1);
-			socket.canaisEntrados.splice(socket.indexOf(args[1]), 1);
+			 valido = true;	
+		}
+		
+		if(valido){
+			canais[canalInformado].usuarios.splice(indice, 1);
+			socket.canaisEntrados.splice(socket.canaisEntrados.indexOf(canalInformado), 1);
 			if(typeof mensagem != 'undefined'){
-				socket.write(socket.nick +' PART '+canalInformado+' :'+mensagem);
+				socket.write(socket.nick +' PART '+canalInformado+' :'+mensagem+'\n');
+				canais[canalInformado].usuarios.forEach(usuario => {
+					usuario.write(socket.nick +' PART '+canalInformado+' :'+mensagem+'\n');
+				});
 			}else{
-				socket.write(socket.nick +' PART '+canalInformado);
+				socket.write(socket.nick +' PART '+canalInformado+'\n');
+				canais[canalInformado].usuarios.forEach(usuario => {
+					usuario.write(socket.nick +' PART '+canalInformado+'\n');
+				});
 			}
 				
 		}else{
-			socket.write('403 PART ' +args[1]+' :Canal informado nao existe. \n');
+			socket.write('403 PART ' +canalInformado+' :Canal informado nao existe. \n');
 		}
 
 	});
@@ -44,7 +51,7 @@ exports.executar = function(args, socket, canais){
 function validar(canaisInformados){
 	canaisInformados.forEach(canal => {
 		if(canal[0] != '#'){
-			socket.write('403 PART ' +canal+' :Canal informado nao existe. ');
+			socket.write('403 PART ' +canal+' :Canal invalido. ');
 			return;
 		}
 	});
