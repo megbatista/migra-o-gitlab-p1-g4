@@ -12,16 +12,20 @@ O presente servidor implementa um chat online onde usuários conectados podem in
 
 2. Instruções de comandos
 
-Comando ```privmsg```:
+Comando `privmsg`:
 
-    Enviar mensagem privada para algum usuário (o usuário precisa ter um nick):
+Enviar mensagem privada para algum usuário (o usuário precisa ter um nick)
     
-    ```javascript privmsg nick mensagem mensagem mensagem```
+```
+privmsg nick mensagem mensagem mensagem
+```
     
-    Enviar mensagem privada para algum grupo (você precisa estar dentro desse grupo):
+Enviar mensagem privada para algum grupo (você precisa estar dentro desse grupo):
     
-    ```javascript privmsg grupo mensagem mensagem mensagem```
+```javascript 
+privmsg grupo mensagem mensagem mensagem
+```
     
-    * O nome do grupo sempre irá começar com o caractere ```#```, e somente nomes de grupo podem iniciar com esse caractere.
+* O nome do grupo sempre irá começar com o caractere ```#```, e somente nomes de grupo podem iniciar com esse caractere.
 
 
