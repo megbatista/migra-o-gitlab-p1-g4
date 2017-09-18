@@ -22,7 +22,7 @@ privmsg nick mensagem mensagem mensagem
     
 Enviar mensagem privada para algum grupo (você precisa estar dentro desse grupo):
     
-```javascript 
+``` 
 privmsg grupo mensagem mensagem mensagem
 ```
     
