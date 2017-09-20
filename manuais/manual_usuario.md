@@ -10,6 +10,8 @@
 
 ...O presente servidor implementa um chat online onde usuarios conectados podem interagir em tempo real uns com os outros.
 
+...
+
 2. Comandos:
 
 ..*Comandos Opicionais:
