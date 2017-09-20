@@ -5,9 +5,6 @@ var user = require('../comandos/user');
 var quit = require('../comandos/quit');
 var privmsg = require('../comandos/privmsg');
 var ison = require('../comandos/ison');
-var part = require('../comandos/part');
-
-//Carrega os modulos em suas respectivas variaveis
 var join = require('../comandos/join.js');
 // Keep track of the chat clients
 var clients = [];
@@ -68,7 +65,7 @@ net.createServer(function (socket) {
 
         switch(args[0].toUpperCase())
         {
-            case 'JOIN': join(args, canais, socket);
+            case 'JOIN': join.executar(args, canais, socket);
             break;
             case 'QUIT': quit.executar(args, socket, clients);
             break;
