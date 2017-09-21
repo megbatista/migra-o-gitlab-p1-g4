@@ -6,6 +6,7 @@ var quit = require('../comandos/quit');
 var privmsg = require('../comandos/privmsg');
 var ison = require('../comandos/ison');
 var part = require('../comandos/part');
+var ping = require('../comandos/pingpong');
 
 //Carrega os modulos em suas respectivas variaveis
 var join = require('../comandos/join.js');
@@ -14,6 +15,9 @@ var clients = [];
 
 //Cria um array para armazenar os canais
 var canais = [];
+
+//Cria um nome para o servidor
+var serverName = 'irc.servidor';
 
 // Start a TCP Server
 net.createServer(function (socket) {
@@ -75,9 +79,11 @@ net.createServer(function (socket) {
             case 'PRIVMSG': privmsg(args,canais,socket,clients);
             break;
             case 'ISON': ison.executar(args, socket, clients);
-		    break;
-	    case 'PART': part.executar(args, socket, canais);
-	    break;
+		    	break;
+	    		case 'PART': part.executar(args, socket, canais);
+	    		break;
+				case 'PING': ping.executar(args, socket, serverName);
+	    		break;
             case '': break;
             default: socket.write('421 '+args[0]+' :Comando desconhecido.\n');
         }
