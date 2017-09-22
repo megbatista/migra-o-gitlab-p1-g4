@@ -9,10 +9,6 @@
 ...que podem ser executados pelos computadores em conexao.
 ...O presente servidor implementa um chat online onde usuarios conectados podem interagir em tempo real uns com os outros.
 
-
-
-
-
 2. Comandos:
 
 ..*Comandos Opicionais:
@@ -22,3 +18,4 @@
 ...``` 
 ...Entrada: ISON Gabriel Patrick Gustavo 
 ...Saida:   Gabriel Gustavo
+...``
