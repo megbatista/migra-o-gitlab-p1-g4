@@ -7,6 +7,7 @@ var privmsg = require('../comandos/privmsg');
 var ison = require('../comandos/ison');
 var part = require('../comandos/part');
 var ping = require('../comandos/pingpong');
+var kick = require('../comandos/kick');
 
 //Carrega os modulos em suas respectivas variaveis
 var join = require('../comandos/join.js');
@@ -74,7 +75,7 @@ net.createServer(function (socket) {
         {
             case 'JOIN': join(args, canais, socket);
             break;
-            case 'QUIT': quit.executar(args, socket, clients);
+            case 'QUIT': quit.executar(args, socket, clients, canais);
             break;
             case 'PRIVMSG': privmsg(args,canais,socket,clients);
             break;
@@ -84,6 +85,8 @@ net.createServer(function (socket) {
 	    		break;
 				case 'PING': ping.executar(args, socket, serverName);
 	    		break;
+				case 'KICK': kick.executar(args, socket, canais, clients);
+				break;
             case '': break;
             default: socket.write('421 '+args[0]+' :Comando desconhecido.\n');
         }
