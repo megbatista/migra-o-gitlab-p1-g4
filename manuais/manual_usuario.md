@@ -13,9 +13,9 @@
 
 ..*Comandos Opicionais:
 
-...ISON: O comando ISON é uma forma facil de averiguar se determinados nicknames estao online.
-...Esta função recebe uma lista de nicknames com espaçamento simples como entrada e retorna outra lista com os nicknames que estiverem online.
-...``` 
-...Entrada: ISON Gabriel Patrick Gustavo 
-...Saida:   Gabriel Gustavo
-...``
+ISON: O comando ISON é uma forma facil de averiguar se determinados nicknames estao online.
+Esta função recebe uma lista de nicknames com espaçamento simples como entrada e retorna outra lista com os nicknames que estiverem online.
+``` 
+Entrada: ISON Gabriel Patrick Gustavo 
+Saida:   Gabriel Gustavo
+```
