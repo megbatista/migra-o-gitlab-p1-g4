@@ -6,6 +6,7 @@ var quit = require('../comandos/quit');
 var privmsg = require('../comandos/privmsg');
 var ison = require('../comandos/ison');
 var part = require('../comandos/part');
+var userhost = require('../comandos/userhost');
 
 //Carrega os modulos em suas respectivas variaveis
 var join = require('../comandos/join.js');
@@ -16,7 +17,7 @@ var clients = [];
 var canais = [];
 
 // Start a TCP Server
-net.createServer(function (socket) {
+const server = net.createServer(function (socket) {
 	
   // Identify this client
   socket.name = socket.remoteAddress + ":" + socket.remotePort
@@ -78,8 +79,12 @@ net.createServer(function (socket) {
 		    break;
 	    case 'PART': part.executar(args, socket, canais);
 	    break;
+	    case 'NICK': nick.executar(args, socket, clients);
+		break;
+	    case 'USERHOST': userhost.executar(args, socket, clients, server);
+		break;
             case '': break;
-            default: socket.write('421 '+args[0]+' :Comando desconhecido.\n');
+            default: socket.write(':'+server.name+'421 '+args[0]+' :Comando desconhecido.\n');
         }
     }
 
@@ -95,7 +100,7 @@ net.createServer(function (socket) {
             break;
             case 'USER': user.executar(args, socket, clients);
             break;
-            case 'JOIN': socket.write('451 * :Voce ainda nao se registrou. \n');
+            case 'JOIN': socket.write(':'+server.name+' 451 * :Voce ainda nao se registrou. \n');
             break;
         }
     }
@@ -103,11 +108,18 @@ net.createServer(function (socket) {
     function welcome()
     {
         // Send a nice welcome message and announce
-        socket.write("\nBem vindo "+socket.nick+"! (" +socket.name + ")"+"\n");
-        broadcast(socket.nick+" ("+socket.name+") "+ " entrou no chat\n", socket);
+        socket.write(":"+server.name+" 001 "+socket.nick+" :Bem vindo ao servidor IRC "+socket.nick+"! (" +socket.name + ")"+"\n");
+	socket.write(":"+server.name+" 002 "+socket.nick+" :Seu host e: "+server.name+"["+server.address().address+"]\n");
+	socket.write(":"+server.name+" 003 "+socket.nick+" :Este servidor foi criado em 2017\n");
+        broadcast(":"+server.name+" * :"+socket.nick+"["+socket.name+"] "+ " entrou no chat.\n", socket);
     }
 
-}).listen(3000);
+});
+server.listen({
+	host: 'localhost',
+	port: 3000 });
+server.name = 'localhost';
+
 
 
 // Put a friendly message on the terminal of the server.

@@ -41,7 +41,8 @@ function privmsg(args, canais, socket, clients)
                 {
                     if(client != socket)
                     {
-                        client.write(socket.nick + " > ");
+                        client.write(":"+socket.nick + "!~"+socket.user+"@"+
+			socket.address().address+ " PRIVMSG "+args[1]+" :");
                     
                         for(var i=2;i<args.length;i++)
                         {
