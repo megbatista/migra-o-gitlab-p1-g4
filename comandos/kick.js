@@ -6,16 +6,15 @@ exports.executar = function(args, socket, canais, clients){
 	var possuimsg = false;
 	var estanocanal = false;
 	var bans = [];
-	var msg;
 	
 	if(!args[2]){
 		socket.write('461 KICK: Parâmetros Insuficientes\n');
 	}
 	if(args[3]){
+		for(var i = 3; i < args.length; i++){
+			var msg = args[i] + " ";
+		}
 		possuimsg = true;
-		for(let i = 3; i < args.length; ++i){
-			msg = args[i];
-		} 
 	}
 	if(canais[canalInformado]){
 		 indice = canais.indexOf(canal);
@@ -38,9 +37,9 @@ exports.executar = function(args, socket, canais, clients){
 	if(valido && estanocanal){
 		canais[canalInformado].usuarios.forEach(function(usuario) {
 			if(usuario.user === banido && usuario.user != bans[banido]){
-				canais[canalInformado].usuarios.splice(indice, 1);
-				usuario.canaisEntrados.splice(usuario.canaisEntrados.indexOf(canalInformado), 1);
 				funcionou = true;
+				canais[canalInformado].usuarios.splice(canais[canalInformado].usuarios.indexOf(usuario), 1);
+				usuario.canaisEntrados.splice(indice, 1);
 			}
 		});
 	}
