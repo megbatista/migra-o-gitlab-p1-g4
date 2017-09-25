@@ -6,6 +6,8 @@ var quit = require('../comandos/quit');
 var privmsg = require('../comandos/privmsg');
 var ison = require('../comandos/ison');
 var part = require('../comandos/part');
+var ping = require('../comandos/pingpong');
+var kick = require('../comandos/kick');
 var userhost = require('../comandos/userhost');
 
 //Carrega os modulos em suas respectivas variaveis
@@ -15,6 +17,9 @@ var clients = [];
 
 //Cria um array para armazenar os canais
 var canais = [];
+
+//Cria um nome para o servidor
+var serverName = 'irc.servidor';
 
 // Start a TCP Server
 const server = net.createServer(function (socket) {
@@ -71,20 +76,27 @@ const server = net.createServer(function (socket) {
         {
             case 'JOIN': join(args, canais, socket);
             break;
-            case 'QUIT': quit.executar(args, socket, clients);
+            case 'QUIT': quit.executar(args, socket, clients, canais);
             break;
             case 'PRIVMSG': privmsg(args,canais,socket,clients);
             break;
             case 'ISON': ison.executar(args, socket, clients);
-		    break;
-	    case 'PART': part.executar(args, socket, canais);
-	    break;
-	    case 'NICK': nick.executar(args, socket, clients);
-		break;
-	    case 'USERHOST': userhost.executar(args, socket, clients, server);
-		break;
-            case '': break;
-            default: socket.write(':'+server.name+'421 '+args[0]+' :Comando desconhecido.\n');
+<<<<<<< server/irc-server.js
+		    	break;
+	    		case 'PART': part.executar(args, socket, canais);
+	    		break;
+				case 'PING': ping.executar(args, socket, serverName);
+	    		break;
+				case 'KICK': kick.executar(args, socket, canais, clients);
+				break;
+				case 'USERHOST': userhost.executar(args, socket, clients, server);
+		        break;
+	            case 'PART': part.executar(args, socket, canais);
+	            break;
+	            case 'NICK': nick.executar(args, socket, clients);
+	        	break;
+                case '': break;
+                default: socket.write(':'+server.name+'421 '+args[0]+' :Comando desconhecido.\n');
         }
     }
 
