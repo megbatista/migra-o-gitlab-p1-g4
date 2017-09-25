@@ -81,22 +81,21 @@ const server = net.createServer(function (socket) {
             case 'PRIVMSG': privmsg(args,canais,socket,clients);
             break;
             case 'ISON': ison.executar(args, socket, clients);
-<<<<<<< server/irc-server.js
-		    	break;
-	    		case 'PART': part.executar(args, socket, canais);
-	    		break;
-				case 'PING': ping.executar(args, socket, serverName);
-	    		break;
-				case 'KICK': kick.executar(args, socket, canais, clients);
-				break;
-				case 'USERHOST': userhost.executar(args, socket, clients, server);
-		        break;
-	            case 'PART': part.executar(args, socket, canais);
-	            break;
-	            case 'NICK': nick.executar(args, socket, clients);
-	        	break;
-                case '': break;
-                default: socket.write(':'+server.name+'421 '+args[0]+' :Comando desconhecido.\n');
+	    	break;
+    		case 'PART': part.executar(args, socket, canais);
+    		break;
+			case 'PING': ping.executar(args, socket, serverName);
+    		break;
+			case 'KICK': kick.executar(args, socket, canais, clients);
+			break;
+			case 'USERHOST': userhost.executar(args, socket, clients, server);
+	        break;
+            case 'PART': part.executar(args, socket, canais);
+            break;
+            case 'NICK': nick.executar(args, socket, clients);
+        	break;
+            case '': break;
+            default: socket.write(':'+server.name+'421 '+args[0]+' :Comando desconhecido.\n');
         }
     }
 
