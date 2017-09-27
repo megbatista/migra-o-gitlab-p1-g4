@@ -2,10 +2,10 @@ exports.executar = function(args, socket, canais){
 	if(!args[1]){
 		socket.write('461 PART :Parametros insuficientes.');
 		return;
-	}	
+	}
         var canaisInformados = args[1].split(',');
-	executarInterno(canaisInformados, socket, canais
-	
+	executarInterno(canaisInformados, socket, canais);
+
 }
 
 exports.executarInterno = function executarInterno(canaisASair, socket, canais){
@@ -26,9 +26,9 @@ exports.executarInterno = function executarInterno(canaisASair, socket, canais){
 
 		if(canais[canalInformado]){
 			 indice = canais.indexOf(canal);
-			 valido = true;	
+			 valido = true;
 		}
-		
+
 		if(valido){
 			canais[canalInformado].usuarios.splice(indice, 1);
 			socket.canaisEntrados.splice(socket.canaisEntrados.indexOf(canalInformado), 1);
@@ -43,7 +43,7 @@ exports.executarInterno = function executarInterno(canaisASair, socket, canais){
 					usuario.write(socket.nick +' PART '+canalInformado+'\n');
 				});
 			}
-				
+
 		}else{
 			socket.write('403 PART ' +canalInformado+' :Canal informado nao existe. \n');
 		}
