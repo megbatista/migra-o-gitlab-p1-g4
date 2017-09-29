@@ -91,7 +91,14 @@ O comando USER e necessario no momento do registro da conexao com o servidor, on
 Entrada: USER <nome de usuario> <modo> * : <nome real>
 ```
 ##### 3.3 JOIN
-...
+O comando JOIN é usado para entrar em um canal ou criar um novo canal.
+```
+join #gyn,#cafe,#cinemais
+```
+Tambem pode ser usado para sair de todos os canais usando '0' como argumento
+```
+join 0
+```
 ##### 3.4 PRIVMSG
 Enviar mensagem privada para algum usuário (o usuário precisa ter um nick)
     
