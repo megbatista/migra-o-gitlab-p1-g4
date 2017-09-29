@@ -1,22 +1,26 @@
+var part = this;
+
 exports.executar = function(args, socket, canais){
 	if(!args[1]){
 		socket.write('461 PART :Parametros insuficientes.');
 		return;
 	}
-        var canaisInformados = args[1].split(',');
-	executarInterno(canaisInformados, socket, canais);
+        
+	var canaisInformados = args[1].split(',');
 
-}
-
-exports.executarInterno = function executarInterno(canaisASair, socket, canais){
 	if(args[2]){
 		var mensagem = '';
 		for(let i = 2; i<args.length; i++){
 			mensagem += args[i]+' ';
 		}
 	}
+	part.executarInterno(canaisInformados, socket, canais);
 
-	validar(canaisASair);
+}
+
+exports.executarInterno = function(canaisASair, socket, canais){
+
+	validar(canaisASair, socket);
 
         var indice;
 
@@ -25,7 +29,7 @@ exports.executarInterno = function executarInterno(canaisASair, socket, canais){
 		var valido = false;
 
 		if(canais[canalInformado]){
-			 indice = canais.indexOf(canal);
+			 indice = canais.indexOf(canalInformado);
 			 valido = true;
 		}
 
@@ -51,11 +55,12 @@ exports.executarInterno = function executarInterno(canaisASair, socket, canais){
 	});
 }
 
-function validar(canaisInformados){
+function validar(canaisInformados, socket){
 	canaisInformados.forEach(canal => {
-		if( (canal[0] != '#') || (canal[0] != '&') || (canal[0] != '+') || (canal[0] != '!') ){
+		if( !((canal[0] == '#') || (canal[0] == '&') || (canal[0] == '+') || (canal[0] == '!') )){
 			socket.write('403 PART ' +canal+' :Canal invalido. ');
 			return;
 		}
 	});
 }
+

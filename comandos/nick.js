@@ -7,6 +7,8 @@ exports.executar = function(args, socket, clients){
 		socket.write('NICK: o nick informado ja está em uso.\n');
 		return;
 	}else{
+		var nickantingo = socket.nick
 		socket.nick = args[1];
+		socket.write(':'+nickantigo+'!'+socket.user+'@localhost NICK '+socket.nick);
 	}	
 }

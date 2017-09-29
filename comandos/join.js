@@ -1,6 +1,6 @@
 var part = require('../comandos/part');
 
-exports.executar = function(args, socket, canais)
+exports.executar = function(args, canais, socket)
 {
   //Lista de canais entrados.
   let listaDeCanais = [];
@@ -18,7 +18,7 @@ exports.executar = function(args, socket, canais)
   if((args[1] == '0') && (!args[2]))
   {
     socket.write('Saindo de todos os canais!\n');
-    part.executarInterno(socket.canaisEntrados, socket, canais);
+    part.executar(socket.canaisEntrados, socket, canais);
     return;
   }
 
@@ -36,8 +36,9 @@ exports.executar = function(args, socket, canais)
     let temp = args[1].split(',');
     for(i in temp)
     {
-      if( (temp[i][1] == '#') || (temp[i][1] == '&') || (temp[i][1] == '+') || (temp[i][1] == '!') )
+      if( (temp[i][0] == '#') || (temp[i][0] == '&') || (temp[i][0] == '+') || (temp[i][0] == '!') )
         listaDeCanais.push(temp[i]);
+	socket.write(':'+socket.nick+'!'+socket.user+'@localhost JOIN '+temp[i]+'\n');
     }
   }
 
@@ -59,14 +60,14 @@ exports.executar = function(args, socket, canais)
 
       socket.write('Criando canal: ' + listaDeCanais[i] + '\n');
       canais[listaDeCanais[i]] = {
-        usuarios: [socket], nomeDoCanal: listaDeCanais[canal],
+        usuarios: [socket], nomeDoCanal: listaDeCanais[i],
         criador: socket.nick, operadores: [], topico: '',
         //Flags
         anonymous:    false,  inviteOnly:  false,   moderated: false,
         quiet:        false,  privateChan: false,   secret:    false,
         settableTopic: true,  reopServ:    false
       };
-      socket.canaisEntrados.push(listaDeCanais[canal]);
+      socket.canaisEntrados.push(listaDeCanais[i]);
     }
   }
 }
