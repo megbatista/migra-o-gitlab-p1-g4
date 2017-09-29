@@ -2,15 +2,15 @@
 
 ## Membros
 
-* Gabriel Gomes Cruz da Rocha - gblcr@hotmail.com - Sem cargo definido
+* Gabriel Gomes Cruz da Rocha - gblcr@hotmail.com - Desenvolvedor/Documentador
 
-* Patrick Dantas Silva Sá Teles - patrickdsilva99@gmail.com - Sem cargo definido
+* Patrick Dantas Silva Sá Teles - patrickdsilva99@gmail.com - Desenvolvedor/Documentador
 
-* Vitor Rafael Gonçalves Rodrigues - vitorafaelgr@gmail.com - Desenvolvedor
+* Vitor Rafael Gonçalves Rodrigues - vitorafaelgr@gmail.com - Desenvolvedor/Documentador
 
-* Meg Batista Alves - meg1489@hotmail.com - Desenvolvedor
+* Meg Batista Alves - meg1489@hotmail.com - Desenvolvedor/Documentador
 
-* Gustavo Vinicius Taveira Lima - gustavo_vinicius_taveira@hotmail.com - Desenvolvedor
+* Gustavo Vinicius Taveira Lima - gustavo_vinicius_taveira@hotmail.com - Desenvolvedor/Documentador
 
 ## Documentação
 
