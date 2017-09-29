@@ -9,9 +9,8 @@ var part = require('../comandos/part');
 var ping = require('../comandos/pingpong');
 var kick = require('../comandos/kick');
 var userhost = require('../comandos/userhost');
-
-//Carrega os modulos em suas respectivas variaveis
 var join = require('../comandos/join.js');
+
 // Keep track of the chat clients
 var clients = [];
 
@@ -74,7 +73,7 @@ const server = net.createServer(function (socket) {
 
         switch(args[0].toUpperCase())
         {
-            case 'JOIN': join(args, canais, socket);
+            case 'JOIN': join.executar(args, canais, socket);
             break;
             case 'QUIT': quit.executar(args, socket, clients, canais);
             break;

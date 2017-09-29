@@ -1,25 +1,25 @@
-function join(argv, canais, socket)
+var part = require('../comandos/part');
+
+exports.executar = function(args, socket, canais)
 {
   //Lista de canais entrados.
   let listaDeCanais = [];
   //Lista de senhas entradas.
   let senhas = [];
-  //Flag que verifica se o usuario deve ser removido de todos
-  // os canais entrados.
-  let sair = false;
 
   //Checa se a entrada é valida
-  if(!argv[1])
+  if(!args[1])
   {
-    socket.write('Entre com um nome valido\n');
+    socket.write('461 JOIN :Parametros insuficientes.\n');
     return;
   }
 
   //Checa se o comando foi JOIN 0
-  if((argv[1] == '0') && (!argv[2]))
+  if((args[1] == '0') && (!args[2]))
   {
     socket.write('Saindo de todos os canais!\n');
-    sair = true;
+    part.executarInterno(socket.canaisEntrados, socket, canais);
+    return;
   }
 
   //Checa se o objeto socket tem o atributo canaisEntrados e
@@ -29,93 +29,44 @@ function join(argv, canais, socket)
     socket.canaisEntrados = [];
   }
 
-  if(argv[1][0] == '#')
+  //Computa as entradas do primeiro termo após o comando.
+  //Executa dentro de chaves '{}' para que a variavel temp
+  // exista apenas dentro das chaves '{}'
   {
-    let canais = argv[1].split(',');
-    for(i in canais)
-      listaDeCanais.push(canais[i]);
+    let temp = args[1].split(',');
+    for(i in temp)
+    {
+      if( (temp[i][1] == '#') || (temp[i][1] == '&') || (temp[i][1] == '+') || (temp[i][1] == '!') )
+        listaDeCanais.push(temp[i]);
+    }
   }
-    //Se a palavra não começar com # ela é considerada senha e
-    // guardada em senhas.
-  if(argv[2])
-  {
-    let pass = argv[2].split(',');
-    for(i in pass)
-    senhas.push(pass[i]);
-  }
-
 
   //Checa se já existem objetos 'canais' com os mesmo nome no
   // array canais. Caso não existam, cria um novo objeto.
-  for(canal in listaDeCanais)
+  for(i in listaDeCanais)
   {
     //Checa se o canal existe.
-    if(canais[listaDeCanais[canal]])
+    if(canais[listaDeCanais[i]])
     {
       //O canal existe.
-
-      //Checa se o canal não tem senha.
-      if(!(canais[listaDeCanais[canal]].hasOwnProperty('senha')))
-      {
-        //O canal não tem senha.
-        canais[listaDeCanais[canal]].usuarios.push(socket);
-        socket.canaisEntrados.push(listaDeCanais[canal]);
-        socket.write('Você entrou no canal '+listaDeCanais[canal]+'!\n');
-      }
-      //O canal tem senha.
-      else
-      {
-        //Checa se a senha do canal é a mesma senha da posição
-        // '0'  do array senha.
-        if(canais[listaDeCanais[canal]].senha == senhas[0])
-        {
-          //A senha certa foi colocada.
-
-          //remove a senha '0' da lista de senhas.
-          senhas.shift();
-          canais[listaDeCanais[canal]].usuarios.push(socket);
-          socket.canaisEntrados.push(listaDeCanais[canal]);
-          socket.write('Você entrou no canal '+listaDeCanais[canal]+'!\n');
-        }
-        //A senha errada foi colocada
-        else {
-          socket.write(listaDeCanais[canal] + ' precisa de senha\n');
-        }
-      }
+      canais[listaDeCanais[i]].usuarios.push(socket);
+      socket.canaisEntrados.push(listaDeCanais[i]);
+      socket.write('Você entrou no canal '+listaDeCanais[i]+'!\n');
     }
     //O canal não existe.
-    else {
-      //Verifica se uma senha foi entrada.
-      if(senhas[0])
-      {
-        socket.write('Criando canal: ' + listaDeCanais[canal] +
-        ' Com senha ' + senhas[0] + '\n');
-        canais[listaDeCanais[canal]] = {usuarios: [socket], senha: senhas[0],
-          nomeDoCanal: listaDeCanais[canal]};
-        //Remove a senha usada da lista de senhas.
-        senhas.shift();
-        //Coloca o nome do canal entrado na propriedade do socket.
-        socket.canaisEntrados.push(listaDeCanais[canal]);
-      }
-      //Nenhuma senha foi entrada.
-      else
-      {
-        socket.write('Criando canal: ' + listaDeCanais[canal] + '\n');
-        canais[listaDeCanais[canal]] = {usuarios: [socket],
-          nomeDoCanal: listaDeCanais[canal]};
-        socket.canaisEntrados.push(listaDeCanais[canal]);
-      }
-    }
-  }
-  //Verifica se JOIN 0 foi entrado.
-  if(sair)
-  {
-    for(canal in socket.canaisEntrados)
+    else
     {
-      canais[socket.canaisEntrados[canal]].usuarios.splice(socket, 1);
+
+      socket.write('Criando canal: ' + listaDeCanais[i] + '\n');
+      canais[listaDeCanais[i]] = {
+        usuarios: [socket], nomeDoCanal: listaDeCanais[canal],
+        criador: socket.nick, operadores: [], topico: '',
+        //Flags
+        anonymous:    false,  inviteOnly:  false,   moderated: false,
+        quiet:        false,  privateChan: false,   secret:    false,
+        settableTopic: true,  reopServ:    false
+      };
+      socket.canaisEntrados.push(listaDeCanais[canal]);
     }
-    delete socket.canaisEntrados;
   }
 }
-
-module.exports = join;
